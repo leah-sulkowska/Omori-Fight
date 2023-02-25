@@ -1,16 +1,16 @@
-# Space ExBoyfriend fight?
+# Space ExBoyfriend fight #
 
-Omori = {"hp": 125, "skill": 200, "atk": 100, "heal": 10}
-Aubrey = {"hp": 115, "skill": 175, "atk": 100, "heal": 10}
-Kel = {"hp": 85, "skill": 125, "atk": 75, "heal": 10}
-Hero = {"hp": 100, "skill": 120, "atk": 60, "heal": 100}
+Omori = {"name": "Omori", "hp": 125, "skill": 200, "atk": 100, "heal": 10}
+Aubrey = {"name": "Aubrey", "hp": 115, "skill": 175, "atk": 100, "heal": 10}
+Kel = {"name": "Kel", "hp": 85, "skill": 125, "atk": 75, "heal": 10}
+Hero = {"name": "Hero", "hp": 100, "skill": 120, "atk": 60, "heal": 100}
 CaptSpaceExBoyfriend = {"hp": 1500, "skill": 60, "atk": 80}
 
-while CaptSpaceExBoyfriend["hp"] >= 1 or Omori["hp"] + Aubrey["hp"] + Kel["hp"] + Hero["hp"] == 0:
+while CaptSpaceExBoyfriend["hp"] >= 1 or Omori["hp"] + Aubrey["hp"] + Kel["hp"] + Hero["hp"] >= 0:
 
     ################################################
     # Omori
-        print("--Omori's Turn--")
+        print("", "--Omori's Turn--")
         Omoris_turn = input("What will Omori do...?  ")
         if Omoris_turn == "Fight":
             Boss_hp = CaptSpaceExBoyfriend["hp"] - Omori["atk"]
@@ -58,7 +58,7 @@ while CaptSpaceExBoyfriend["hp"] >= 1 or Omori["hp"] + Aubrey["hp"] + Kel["hp"] 
     #################################################
     # Aubrey
 
-        print("--Aubrey's Turn--")
+        print("", "--Aubrey's Turn--")
         Aubreys_turn = input("What will Aubrey do...?  ")
         if Aubreys_turn == "Fight":
             Boss_hp = CaptSpaceExBoyfriend["hp"] - Aubrey["atk"]
@@ -88,6 +88,7 @@ while CaptSpaceExBoyfriend["hp"] >= 1 or Omori["hp"] + Aubrey["hp"] + Kel["hp"] 
 
                 elif Aubrey_heal == "x":
                     print("You have decided to return")
+
                 else:
                     print("Aubrey was unable to do that action...")
 
@@ -103,11 +104,11 @@ while CaptSpaceExBoyfriend["hp"] >= 1 or Omori["hp"] + Aubrey["hp"] + Kel["hp"] 
         else:
              print("Aubrey was unable to do that action...")
 
-#############
-
-        print("--Kel's Turn--")
+    #############
+    # Kel
+        print("", "--Kel's Turn--")
         Kels_turn = input("What will Kel do...?  ")
-        if Kels_turn.lower() == "Fight":
+        if Kels_turn == "Fight":
                 Boss_hp = CaptSpaceExBoyfriend["hp"] - Kel["atk"]
                 print("Kel deals", Kel["atk"], " damage")
                 CaptSpaceExBoyfriend["hp"] = Boss_hp
@@ -154,7 +155,7 @@ while CaptSpaceExBoyfriend["hp"] >= 1 or Omori["hp"] + Aubrey["hp"] + Kel["hp"] 
     ########################################################
     # Hero
 
-        print("--Hero's Turn--")
+        print("", "--Hero's Turn--")
         Heros_turn = input("What will Hero do...?  ")
         if Heros_turn == "Fight":
             Boss_hp = CaptSpaceExBoyfriend["hp"] - Hero["atk"]
@@ -215,7 +216,7 @@ while CaptSpaceExBoyfriend["hp"] >= 1 or Omori["hp"] + Aubrey["hp"] + Kel["hp"] 
     ##########################################################
     # CaptSpaceExBoyfriend
 
-        print("--CaptSpaceExBoyfriend's Turn--")
+        print("", "--CaptSpaceExBoyfriend's Turn--")
         import random
         rng1 = random.randint(1, 3)
         # print("rng1 =", rng1)
@@ -223,26 +224,30 @@ while CaptSpaceExBoyfriend["hp"] >= 1 or Omori["hp"] + Aubrey["hp"] + Kel["hp"] 
         # print("rng2 =", rng2)
 
         if rng2 == 1:
-            rng2 = "Omori"
+            rng2 = Omori
         elif rng2 == 2:
-            rng2 = "Aubrey"
+            rng2 = Aubrey
         elif rng2 == 3:
-            rng2 = "Kel"
+            rng2 = Kel
         else:
-            rng2 = "Hero"
+            rng2 = Hero
 
         if rng1 == 1:
             CSEBs_turn = "Fight"
-            print("CaptSpaceExBoyfriend deals", CaptSpaceExBoyfriend["atk"], " damage to", rng2)
+            print("CaptSpaceExBoyfriend deals", CaptSpaceExBoyfriend["atk"], " damage to", rng2["name"])
             rng2["hp"] = rng2["hp"] - CaptSpaceExBoyfriend["atk"]
-            print(rng2, "'s hp is now: ", rng2["hp"])
+            print(rng2["name"], "'s hp is now: ", rng2["hp"])
         elif rng1 == 2:
             CSEBs_turn = "Skill"
             print("CaptSpaceExBoyfriend deals", CaptSpaceExBoyfriend["skill"], " damage to Omori and friends")
-            Omori["hp"] - CaptSpaceExBoyfriend["skill"]
-            Aubrey["hp"] - CaptSpaceExBoyfriend["skill"]
-            Kel["hp"] - CaptSpaceExBoyfriend["skill"]
-            Hero["hp"] - CaptSpaceExBoyfriend["skill"]
+            Omori_New_Hp = Omori["hp"] - CaptSpaceExBoyfriend["skill"],
+            Omori["hp"] = Omori_New_Hp
+            Aubrey_New_Hp = Aubrey["hp"] - CaptSpaceExBoyfriend["skill"]
+            Aubrey["hp"] = Aubrey_New_Hp
+            Kel_New_Hp = Kel["hp"] - CaptSpaceExBoyfriend["skill"]
+            Kel["hp"] = Kel_New_Hp
+            Hero_New_Hp = Hero["hp"] - CaptSpaceExBoyfriend["skill"]
+            Hero["hp"] = Hero_New_Hp
             print("Omori's hp is now: ", Omori["hp"])
             print("Aubrey's hp is now: ", Aubrey["hp"])
             print("Kel's hp is now: ", Kel["hp"])
@@ -253,9 +258,7 @@ while CaptSpaceExBoyfriend["hp"] >= 1 or Omori["hp"] + Aubrey["hp"] + Kel["hp"] 
             CaptSpaceExBoyfriend["atk"] = New_atk
             print("CaptSpaceExBoyfriend has flexed and his damage is now", CaptSpaceExBoyfriend["atk"])
 
-
-#######################
-if CaptSpaceExBoyfriend["hp"] <= 0:
-    print("Capt. Space ExBoyfriend has been Defeated!")
-if Omori["hp"] + Aubrey["hp"] + Kel["hp"] + Hero["hp"] == 0:
-    print("Omori and friends have been Defeated!")
+        if CaptSpaceExBoyfriend["hp"] <= 0:
+            print("Capt. Space ExBoyfriend has been Defeated!")
+        if Omori["hp"] + Aubrey["hp"] + Kel["hp"] + Hero["hp"] <= 0:
+            print("Omori and friends have been Defeated!")
