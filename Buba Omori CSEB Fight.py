@@ -13,7 +13,7 @@ all_characters_named = {"Omori": Omori, "Aubrey": Aubrey, "Kel": Kel, "Hero": He
 CaptSpaceExBoyfriend = {"hp": 1500, "skill": 60, "atk": 80}
 
 food = {"apple": 20, "ramen": 50, "juice": 1}
-num = {"apple": 1, "ramen": 1, "juice": 1}
+num = {"apple": 10, "ramen": 3, "juice": 3}
 
 round_count = 1
 
@@ -226,7 +226,7 @@ def boss_turn():
 def character_dead(character):
     print("------")
     print("--", character["name"], "'s Turn--")
-    print(character["name"], "is dead.")
+    print(character["name"], "is toast.")
 
 def game(round_count):
     while any_character_alive(all_characters):
