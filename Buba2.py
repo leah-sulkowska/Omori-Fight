@@ -1,19 +1,21 @@
 import random
 
-# Space ExBoyfriend fight #
+# --- Omori Fight Simulator - Space Ex-Boyfriend Fight --- #
 
-Omori = {"name": "Omori", "hp": 125, "skill": 200, "atk": 100, "heal": 10, "skill_count": 3}
-Aubrey = {"name": "Aubrey", "hp": 115, "skill": 175, "atk": 100, "heal": 10, "skill_count": 3}
-Kel = {"name": "Kel", "hp": 85, "skill": 125, "atk": 75, "heal": 10, "skill_count":3}
-Hero = {"name": "Hero", "hp": 100, "skill": 120, "atk": 60, "heal": 100, "skill_count": 0}
+Omori = {"name": "Omori", "hp": 125, "skill": 200, "atk": 100, "heal": 10, "skill_count": 1}
+Aubrey = {"name": "Aubrey", "hp": 115, "skill": 175, "atk": 100, "heal": 10, "skill_count": 1}
+Kel = {"name": "Kel", "hp": 85, "skill": 125, "atk": 75, "heal": 10, "skill_count": 1}
+Hero = {"name": "Hero", "hp": 100, "skill": 120, "atk": 60, "heal": 100, "skill_count": 1}
 
 all_characters = [Omori, Aubrey, Kel, Hero]
 all_characters_named = {"Omori": Omori, "Aubrey": Aubrey, "Kel": Kel, "Hero": Hero}
 
 CaptSpaceExBoyfriend = {"hp": 1500, "skill": 60, "atk": 80}
 
-food = {"apple": 20, "ramen": 50, "juice": 2}
+food = {"apple": 20, "ramen": 50, "juice": 1}
+num = {"apple": 1, "ramen": 1, "juice": 1}
 
+round_count = 1
 
 def fix_user_input(user_dirty_input):
     user_inpt_upper = user_dirty_input.upper()
@@ -30,35 +32,38 @@ def character_move(character):
     if character["hp"] <= 0:
         character["hp"] = 0
 
-    print("------")
+    print(f"------")
 
     while True:
         print(f"--{character_name}'s Turn--")
-        turn = input(f"What will {character_name} do...?  ").lower
-        if turn == "fight":
+        user_dirty_input = input(f"What will {character['name']} do...?  ")
+        turn = fix_user_input(user_dirty_input)
+        # turn = input(f"What will {character_name} do...?  ")
+
+        if turn == "Fight":
             Boss_hp = CaptSpaceExBoyfriend["hp"] - character["atk"]
             print(f"{character_name} deals", character["atk"], " damage")
             CaptSpaceExBoyfriend["hp"] = Boss_hp
             print("Capt.SpaceExBoyfriend's hp is now: ", CaptSpaceExBoyfriend["hp"])
             return
 
-        elif turn == "heal":
+        elif turn == "Heal":
             healed_name = input(f"Who will {character_name} heal...?  ")
 
             for healed in all_characters:
                 if healed["name"] == healed_name:
                     New_Hp = (healed["hp"]) + (character["heal"])
-                    print(f"{character_name} healed", healed_name, character["heal"])
+                    print(f"{character_name} healed", healed_name, character["heal"], "hp")
                     print(healed_name, "'s hp is now: ", New_Hp)
                     healed["hp"] = New_Hp
                     return
 
             print("Selected not existing character's name, returning to the beginning...")
 
-        elif turn == "skill":
+        elif turn == "Skill":
             if character["skill_count"] <= 0:  # if skill count 0 or less don't deal dmg
                 print(character["name"], "needs more juice!")
-                return
+
             elif character_name == 'Hero':
                 healed_name = input("Who will Hero heal...?  ")
                 for healed in all_characters:
@@ -69,7 +74,7 @@ def character_move(character):
                         healed["hp"] = New_Hp
                         new_count = character["skill_count"] - 1
                         character["skill_count"] = new_count
-                        print(character["name"], "'s skillcount is now", character["skill_count"])
+                        print(character["name"], "'s juice is now", character["skill_count"])
                         return
             else:
                 Boss_hp = CaptSpaceExBoyfriend["hp"] - character["skill"]
@@ -77,29 +82,68 @@ def character_move(character):
                 CaptSpaceExBoyfriend["hp"] = Boss_hp
                 if CaptSpaceExBoyfriend["hp"] <= 0:
                     CaptSpaceExBoyfriend["hp"] = 0
+                new_count = character["skill_count"] - 1
+                character["skill_count"] = new_count
+                print(character["name"], "'s juice is now", character["skill_count"])
                 print("Capt.SpaceExBoyfriend's hp is now: ", CaptSpaceExBoyfriend["hp"])
+
                 return
 
-        elif turn == "food":  # food function
-            user_dirty_input = input(f"Who will {character['name']} use food on? ") # who will food be used on
+        elif turn == "Food":  # food function
+            user_dirty_input = input(f"What will {character['name']} use? ")  # what food will be used
+            food_used = fix_user_input(user_dirty_input)
+
+            user_dirty_input = input(f"Who will {character['name']} use food on? ")  # who will food be used on
             fed_name = fix_user_input(user_dirty_input)
             if fed_name in all_characters_named:
                 fed = all_characters_named[fed_name]
+                # user_dirty_input = input(f"What will {character['name']} use? ")  # what food will be used
+                # food_used = fix_user_input(user_dirty_input)
+                if food_used == "Apple":
+                    if num["apple"] <= 0:
+                        print("Not enough ramen. (", num["apple"], ")")
+                    else:
+                        fed["hp"] += food["apple"]
+                        new_num = num["apple"] - 1
+                        num["apple"] = new_num
+                        print(num["apple"], " apples left")
+                        print(f"{fed['name']}'s hp is now {fed['hp']}")
+                        return
 
-                food_used = input(f"What will {character['name']} use? ").lower()  # what food will be used
-                if food_used == "apple":
-                    fed["hp"] += food["apple"]
-                    print(f"{fed['name']}'s hp is now {fed['hp']}")
-                elif food_used == "ramen":
-                    fed["hp"] += food["ramen"]
-                    print(f"{fed['name']}'s hp is now {fed['hp']}")
-                elif food_used == "juice":
-                    fed["skill_count"] += food["juice"]
-                    print(f"{fed['name']}'s juice is now {fed['skill_count']}")
+                elif food_used == "Ramen":
+                    if num["ramen"] <= 0:
+                        print("Not enough ramen. (", num["ramen"], ")")
 
-                return
+                    else:
+                        fed["hp"] += food["ramen"]
+                        new_num = num["ramen"] - 1
+                        num["ramen"] = new_num
+                        print(num["ramen"], " ramen left")
+                        print(f"{fed['name']}'s hp is now {fed['hp']}")
+                        return
 
-        elif turn == "kill":  # FOR DEBUGGING ONLY
+                # elif food_used == "Juice":
+                #     if juice_num >= 1:
+                #         fed["skill_count"] += food["juice"]
+                #         juice_num -= 1
+                #         print(f"{fed['name']}'s juice is now {fed['skill_count']}")
+                #         return
+                #     else:
+                #         print("Not enough juice.")
+
+                elif food_used == "Juice":
+                    if num["juice"] <= 0:
+                        print("Not enough juice. (", num["juice"], ")")
+
+                    else:
+                        fed["skill_count"] += food["juice"]
+                        new_num = num["juice"] - 1
+                        num["juice"] = new_num
+                        print(num["juice"], " juice left")
+                        print(f"{fed['name']}'s juice is now {fed['skill_count']}")
+                        return
+
+        elif turn == "Kill":  # FOR DEBUGGING ONLY
             new_hp = CaptSpaceExBoyfriend["hp"] - 2000
             CaptSpaceExBoyfriend["hp"] = new_hp
             print("Boss has taken 2000 damage...")
@@ -165,17 +209,31 @@ def boss_turn():
         # print("Kel's hp is now: ", Kel["hp"])
         # print("Hero's hp is now: ", Hero["hp"])
     else:
-        New_atk = CaptSpaceExBoyfriend["atk"] + 20
-        CaptSpaceExBoyfriend["atk"] = New_atk
-        print("CaptSpaceExBoyfriend has flexed and his damage is now", CaptSpaceExBoyfriend["atk"])
+        if CaptSpaceExBoyfriend["atk"] >= 125:
+            New_atk = CaptSpaceExBoyfriend["atk"] + 20
+            CaptSpaceExBoyfriend["atk"] = New_atk
+            print("CaptSpaceExBoyfriend has flexed and his damage is now", CaptSpaceExBoyfriend["atk"])
+        else:
+            print("CaptSpaceExBoyfriend deals", CaptSpaceExBoyfriend["atk"], " damage to", rng2["name"])
+            rng2["hp"] = rng2["hp"] - CaptSpaceExBoyfriend["atk"]
+            for character in all_characters:
+                if character["hp"] <= 0:
+                    character["hp"] = 0
+            print(rng2["name"], "'s hp is now: ", rng2["hp"])
+
+
 
 def character_dead(character):
     print("------")
     print("--", character["name"], "'s Turn--")
     print(character["name"], "is dead.")
 
-def game():
+def game(round_count):
     while any_character_alive(all_characters):
+        print("-------")
+        print("")
+        print("")
+        print(f"--- Round {round_count} ---")
         for character in all_characters:
             if character["hp"] > 0:
                 character_move(character)
@@ -186,11 +244,13 @@ def game():
                 return
 
         boss_turn()
+        round_count += 1
+
 
 #========================================
 
 
-game()
+game(round_count)
 
 if CaptSpaceExBoyfriend["hp"] == 0:
     print("Capt. Space ExBoyfriend has been Defeated!")
